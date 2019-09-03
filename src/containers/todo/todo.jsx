@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 
-import { addTast, removeTask } from '../../actions/actionCreator';
+import { addTast, removeTask, completeTask } from '../../actions/actionCreator';
 
 import ToDoInput from '../../components/todo-input/todo-input';
 import ToDoList from '../../components/todo-list/todo-list';
@@ -38,7 +38,7 @@ class ToDo extends Component {
 
   render() {
     const { activeFilter, taskText } = this.state;
-    const { tasks, removeTask } = this.props;
+    const { tasks, removeTask, completeTask } = this.props;
     const isTasksExist = tasks && tasks.length > 0;
 
     return (
@@ -48,7 +48,13 @@ class ToDo extends Component {
           onChange={this.handleInputChange}
           onKeyPress={this.addTask}
         />
-        {isTasksExist && <ToDoList tasksList={tasks} removeTask={removeTask} />}
+        {isTasksExist && 
+          <ToDoList
+            tasksList={tasks}
+            removeTask={removeTask}
+            completeTask={completeTask}
+          />
+        }
         {isTasksExist && <Footer amount={tasks.length} activeFilter={activeFilter} />}
       </div>
     );
@@ -57,4 +63,4 @@ class ToDo extends Component {
 
 export default connect(state => ({
   tasks: state.tasks,
-}), { addTast, removeTask })(ToDo);
+}), { addTast, removeTask, completeTask })(ToDo);
